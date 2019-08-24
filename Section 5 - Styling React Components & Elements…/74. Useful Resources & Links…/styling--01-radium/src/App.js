@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import classes from './App.css';
+import './App.css';
+import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -45,8 +46,20 @@ class App extends Component {
   }
 
   render () {
+    const style = {
+      backgroundColor: 'green',
+      color: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
+    };
+
     let persons = null;
-    let btnClass = '';
 
     if ( this.state.showPersons ) {
       persons = (
@@ -62,29 +75,35 @@ class App extends Component {
         </div>
       );
 
-      btnClass = classes.Red;
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      };
     }
 
-    const assignedClasses = [];
+    const classes = [];
     if ( this.state.persons.length <= 2 ) {
-      assignedClasses.push( classes.red ); // classes = ['red']
+      classes.push( 'red' ); // classes = ['red']
     }
     if ( this.state.persons.length <= 1 ) {
-      assignedClasses.push( classes.bold ); // classes = ['red', 'bold']
+      classes.push( 'bold' ); // classes = ['red', 'bold']
     }
 
     return (
-        <div className={classes.App}>
+      <StyleRoot>
+        <div className="App">
           <h1>Hi, I'm a React App</h1>
-          <p className={assignedClasses.join( ' ' )}>This is really working!</p>
+          <p className={classes.join( ' ' )}>This is really working!</p>
           <button
-            className={btnClass}
+            style={style}
             onClick={this.togglePersonsHandler}>Toggle Persons</button>
           {persons}
         </div>
+      </StyleRoot>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-export default App;
+export default Radium( App );
