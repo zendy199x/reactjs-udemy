@@ -58,8 +58,8 @@ class App extends Component {
 
         return (
             <div className={classes.App}>
-            <h1>Hi, I'm a React App</h1>
                 <Cockpit
+                    title={this.props.appTitle}
                     showPersons={this.showPersons}
                     persons={this.state.persons}
                     clicked={this.togglePersonsHandler} />
